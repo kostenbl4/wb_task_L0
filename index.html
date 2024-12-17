@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Lookup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Order Lookup</h1>
+    <form id="order-form">
+        <label for="uid">Enter UID:</label><br>
+        <input type="text" id="uid" placeholder="UID" required><br>
+        <button type="submit">Get Order</button>
+    </form>
+    <div id="result">
+        <h3>Order Details</h3>
+        <pre id="order-details">No data yet.</pre>
+    </div>
+
+    <script>
+        document.getElementById('order-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const uid = document.getElementById('uid').value; 
+            const resultDiv = document.getElementById('order-details');
+
+            try {
+                const response = await fetch(`/orders/${uid}`); 
+                if (!response.ok) {
+                    resultDiv.textContent = `Error: ${response.status} - ${response.statusText}`;
+                    return;
+                }
+                const data = await response.json();
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                resultDiv.textContent = `Error fetching data: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
