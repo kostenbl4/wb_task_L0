@@ -15,7 +15,7 @@ func (app *application) GetConsumerFunc() func([]byte) error {
 			app.logger.Error("failed to parse json: " + err.Error())
 			return err
 		}
-		
+
 		tx, err := app.store.Orders.BeginTx()
 
 		if err != nil {
@@ -50,9 +50,9 @@ func (app *application) GetConsumerFunc() func([]byte) error {
 			return err
 		}
 
-		app.logger.Debug(fmt.Sprintf("order with order_uid=%v created", in.OrderUID))
+		app.logger.Info(fmt.Sprintf("order with order_uid=%v created", in.OrderUID))
 		app.cache.Set(in.OrderUID, in)
-		
+
 		return nil
 	}
 }
