@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"os"
 	"time"
-	//"time"
 )
 
 func main() {
@@ -30,7 +30,7 @@ func main() {
 		if err := p.Produce(jsonData, "orders"); err != nil {
 			panic(err)
 		}
-
+		slog.Info(fmt.Sprintf("Produced order_uid=%v", fakeOrder.OrderUID))
 	}
 
 	// if err := p.Produce([]byte("trash data"), "orders"); err != nil {
